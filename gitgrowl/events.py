@@ -1,9 +1,9 @@
 #!/usr/bin/python
 
-from gitgrowl import os
-from gitgrowl import sqlite3
-from gitgrowl import default_config
+import os
 import ast
+import sqlite3
+from gitgrowl import default_config
 
 conn = None
 config = None

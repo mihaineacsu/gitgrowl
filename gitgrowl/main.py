@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from gitgrowl import sys
+import sys
 from gitgrowl import events
 from gitgrowl import stats
 
