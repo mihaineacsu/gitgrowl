@@ -1,23 +1,20 @@
 #!/usr/bin/python
 
-import sys
+from gitgrowl import sys
+from gitgrowl import events
+from gitgrowl import stats
 
 usage = 'Usage: '
 
-def run_events():
-	pass
-
-def run_stats():
-	pass
-
 def run_command(command):
 	return {
-		'events': run_events(),
-		'stats' : run_stats(),
+		'events': events.events_main(),
+		'stats' : stats.stats_main(),
 	}.get(command, usage)
 
 def main():
 	if len(sys.argv) == 1:
 		print usage
 	else:
-		run_command(sys.argv[1])
+		if run_command(sys.argv[1]) != None:
+			print usage
