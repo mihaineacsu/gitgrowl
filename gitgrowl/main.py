@@ -8,7 +8,7 @@ usage = 'Usage: '
 
 def run_command(command):
 	return {
-		'events': events.events_main(),
+		'events': events.events_main(sys.argv[1:]),
 		'stats' : stats.stats_main(),
 	}.get(command, usage)
 
