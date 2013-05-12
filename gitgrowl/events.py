@@ -4,6 +4,7 @@ import os
 import ast
 import sqlite3
 import subprocess
+import requests
 from gitgrowl import default_config
 
 conn = None
@@ -29,14 +30,19 @@ def check_db():
 		config = ast.literal_eval(open('.gitgrowl_config', 'r').read())
 		conn = sqlite3.connect(config['db_file'])
 
-def get_repo():
+def get_repourl():
 	output = subprocess.check_output(["git", "remote", "-v"])
-	return output.split()[1][:-4].split('/', 3)[3] 
+	repo = output.split()[1][:-4].split('/', 3)[3]
+	return ''.join(('https://api.github.com/repos/', repo, '/'))
+
+def get_issues(repo):
+	pass
+
 
 def check_events():
 	check_db()
-	repo = get_repo()
-	
+	url = get_repourl()
+	issues = get_issues(url)
 
 def events_main(args):
 	if len(args) == 1:

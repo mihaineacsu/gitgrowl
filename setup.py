@@ -9,11 +9,12 @@ setup(
     author='Mihai Neacsu',
     author_email='mihai.neacsu@ymail.com',
     url='https://github.com/mihaineacsu/gitgrowl',
-	packages = ['gitgrowl'],
+	packages=['gitgrowl'],
     download_url='https://github.com/mihaineacsu/gitgrowl',
     description='Github repository activity aggregator',
     long_description=readme_description,
     platforms='any',
+	install_requires=['requests',],
 	entry_points={
 		'console_scripts': [
 			'gitgrowl = gitgrowl.main:main',
