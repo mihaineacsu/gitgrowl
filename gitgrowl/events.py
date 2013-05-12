@@ -14,8 +14,7 @@ def setup_env():
 	with open('.gitgrowl_config', 'w+') as config_file:
 		config_file.write(''.join((repr(config))))
 
-	db_file = config['db_file']
-	conn = sqlite3.connect(db_file)
+	conn = sqlite3.connect(config['db_file'])
 
 	with open('.gitignore', 'a+') as gitignore:
 		gitignore.write('\n# gitgrowl\n')

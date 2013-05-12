@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import sys
+import os
 from gitgrowl import events
 from gitgrowl import stats
 
@@ -16,5 +17,8 @@ def main():
 	if len(sys.argv) == 1:
 		print usage
 	else:
+		if not os.path.isdir(''.join((os.getcwd(), '/.git'))):
+			print "fatal: Not a git repository"
+			return
 		if run_command(sys.argv[1]) != None:
 			print usage
