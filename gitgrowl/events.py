@@ -75,6 +75,10 @@ def get_pullreq(repo):
 		return requests.get(pullreq_url)
 
 def check_events():
+	"""
+	Looks for config and db files, fetches events,
+	updates db, displays event if rules apply
+	"""
 	check_db()
 	url = get_repourl()
 	issues = get_issues(url)

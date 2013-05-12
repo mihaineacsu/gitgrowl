@@ -2,6 +2,9 @@ import sqlite3
 from gitgrowl import default_config
 
 def setup():
+	"""
+	Creates config and db files if they're not found.
+	"""
 	config = default_config.config
 
 	with open('.gitgrowl_config', 'w+') as config_file:
