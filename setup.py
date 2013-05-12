@@ -1,7 +1,7 @@
 from setuptools import setup
 
 with open('./README.md', 'r') as readme_file:
-    readme_description = readme_file.read()
+	readme_description = readme_file.read()
 
 setup(
 	name='gitgrowl',
