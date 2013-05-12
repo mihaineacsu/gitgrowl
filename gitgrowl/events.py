@@ -20,19 +20,19 @@ class GitHubObject():
 		self.title = event['title']
 		self.author = event['user']['login']
 
-		if event['assignee'] != 'null':
+		if event['assignee'] != None:
 			self.assignee = event['assignee']['login']
 		else:
-			self.assignee = 'null'
+			self.assignee = None
 
-		if event['milestone'] != 'null':
+		if event['milestone'] != None:
 			self.milestone = event['milestone']['title']
 		else:
-			self.milestone = 'null'
+			self.milestone = None
 
 		if event['body'] != '':
 			self.body = event['body']
-		else
+		else:
 			self.body = ''
 
 def check_db():
@@ -83,6 +83,10 @@ def check_events():
 	url = get_repourl()
 	issues = get_issues(url)
 	pullreq = get_pullreq(url)
+
+	l = []
+	for issue in issues.json():
+		l.append(GitHubObject(issue))
 
 def events_main(args):
 	if len(args) == 1:
