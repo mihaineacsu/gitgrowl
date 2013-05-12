@@ -35,6 +35,21 @@ class GitHubObject():
 		else:
 			self.body = ''
 
+class GitIssue(GitHubObject):
+	def __init__(self, event):
+		GitHubObject.__init__(self, event)
+		self.number = event['number']
+
+		self.labels = []
+		for label in event['labels']:
+			self.labels.append(label['name'])
+		
+		self.pull_request = event['pull_request']['html_url']
+
+class GitPull(GitHubObject):
+	def __init__(self, event):
+		GitHubObject.__init__(self, event)
+
 def check_db():
 	global config, conn
 
@@ -84,9 +99,13 @@ def check_events():
 	issues = get_issues(url)
 	pullreq = get_pullreq(url)
 
-	l = []
+	issue_list = []
 	for issue in issues.json():
-		l.append(GitHubObject(issue))
+		issue_list.append(GitIssue(issue))
+
+	pull_list = []
+	for pull in pullreq.json():
+		pull_list.append(GitPull(pull))
 
 def events_main(args):
 	if len(args) == 1:
