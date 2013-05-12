@@ -5,12 +5,16 @@ import ast
 import sqlite3
 import subprocess
 import requests
+import getpass
 from gitgrowl import default_config
 
 conn = None
 config = None
+username = None
+password = None
 
 def setup_env():
+	global config, conn
 	config = default_config.config
 
 	with open('.gitgrowl_config', 'w+') as config_file:
@@ -24,6 +28,8 @@ def setup_env():
 		gitignore.write(''.join(('.gitgrowl_config\n', db_file, '\n')))
 
 def check_db():
+	global config, conn
+
 	if not os.path.isfile(''.join((os.getcwd(), '/.gitgrowl_config'))):
 		setup_env()
 	else:
@@ -36,13 +42,35 @@ def get_repourl():
 	return ''.join(('https://api.github.com/repos/', repo, '/'))
 
 def get_issues(repo):
-	pass
+	global username, password
 
+	issues_url = ''.join((repo, 'issues'))
+	issues = requests.get(issues_url)
+
+	# TODO: add sanity checks for error codes
+	if issues.status_code <= 400:
+		return issues
+	
+	print "Private repo, auth required"
+	username = raw_input("Username: ")
+	password = getpass.getpass()
+
+	return requests.get(issues_url, auth=(username, password))
+
+def get_pullreq(repo):
+	global username, password
+
+	pullreq_url = ''.join((repo, 'pulls'))
+	if username != None:
+		return requests.get(pullreq_url, auth=(username, password))
+	else:
+		return requests.get(pullreq_url)
 
 def check_events():
 	check_db()
 	url = get_repourl()
 	issues = get_issues(url)
+	pullreq = get_pullreq(url)
 
 def events_main(args):
 	if len(args) == 1:
