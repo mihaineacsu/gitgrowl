@@ -13,6 +13,28 @@ config = None
 username = None
 password = None
 
+class GitHubObject():
+	def __init__(self, event):
+		self.event_id = event['id']
+		self.html_url = event['html_url']
+		self.title = event['title']
+		self.author = event['user']['login']
+
+		if event['assignee'] != 'null':
+			self.assignee = event['assignee']['login']
+		else:
+			self.assignee = 'null'
+
+		if event['milestone'] != 'null':
+			self.milestone = event['milestone']['title']
+		else:
+			self.milestone = 'null'
+
+		if event['body'] != '':
+			self.body = event['body']
+		else
+			self.body = ''
+
 def check_db():
 	global config, conn
 
