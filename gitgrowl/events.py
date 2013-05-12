@@ -48,7 +48,7 @@ def get_issues(repo):
 	issues = requests.get(issues_url)
 
 	# TODO: add sanity checks for error codes
-	if issues.status_code <= 400:
+	if 200 <= issues.status_code < 300:
 		return issues
 	
 	print "Private repo, auth required"

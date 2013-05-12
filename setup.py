@@ -14,7 +14,7 @@ setup(
     description='Github repository activity aggregator',
     long_description=readme_description,
     platforms='any',
-	install_requires=['requests',],
+	install_requires=['requests', 'pysqlite',],
 	entry_points={
 		'console_scripts': [
 			'gitgrowl = gitgrowl.main:main',
