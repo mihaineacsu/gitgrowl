@@ -6,32 +6,18 @@ import sqlite3
 import subprocess
 import requests
 import getpass
-from gitgrowl import default_config
+from gitgrowl import setup_env
 
 conn = None
 config = None
 username = None
 password = None
 
-def setup_env():
-	global config, conn
-	config = default_config.config
-
-	with open('.gitgrowl_config', 'w+') as config_file:
-		config_file.write(''.join((repr(config))))
-
-	db_file = config['db_file']
-	conn = sqlite3.connect(db_file)
-
-	with open('.gitignore', 'a+') as gitignore:
-		gitignore.write('\n# gitgrowl\n')
-		gitignore.write(''.join(('.gitgrowl_config\n', db_file, '\n')))
-
 def check_db():
 	global config, conn
 
 	if not os.path.isfile(''.join((os.getcwd(), '/.gitgrowl_config'))):
-		setup_env()
+		(config, conn) = setup_env.setup()
 	else:
 		config = ast.literal_eval(open('.gitgrowl_config', 'r').read())
 		conn = sqlite3.connect(config['db_file'])
